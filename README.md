@@ -17,10 +17,43 @@ Dans cette nouvelle phase, ABC Corporation souhaite aller plus loin en intégran
 - Concevoir une application Node.js en mode console permettant d'effectuer des opérations CRUD (Create, Read, Update, Delete) sur l'ensemble des tables de la base de données, y compris la gestion des paiements.
 - Intégrer une gestion rigoureuse des exceptions pour assurer la fiabilité des opérations (gestion des erreurs de saisie, connexions à la base de données, etc.)
 
-## Installation
+### Pré-requis
 
-- Téléchager le code source depuis (repository github) [https://github.com/Aichetou-Gaye/abc_corporation_nodejs.git]
-- Suivre le manuel dans README, la section "Utilisation";
+Pour la prise en main correcte de l'application, il est nécessaire d'avoir installé les éléments suivants :
+
+- [Node js](https://nodejs.com/)
+- [MySQL](https://www.mysql.com/)
+
+## Installation 
+
+Suivez ces étapes pour configurer le projet sur votre machine locale :
+
+1. **Clonez le repository :**
+
+```bash
+git clone https://github.com/Aichetou-Gaye/abc_corporation_nodejs.git
+```
+
+2. **Accédez au dossier du projet :**
+
+```bash
+cd abc_corporation_nodejs
+```
+
+3. **Installez les dépendances :**
+
+```bash
+npm install
+```
+
+## Règles de gestion
+
+- Un produit peut etre fournie à un ou plusieurs details;
+- Un client peut faire plusieurs commandes;
+- Une commande n'est fait que par client;
+- Un detail commande est concerné par une commande;
+- Une commande doit avoir un ou plusieurs details.
+- Un payment n'est concerné que par une commande
 
 ## Utilisation
 
@@ -33,13 +66,6 @@ Dans cette nouvelle phase, ABC Corporation souhaite aller plus loin en intégran
 
 Dans le fichier "script.sql", toutes les commandes pour la création de la base de données, son utilisation et la création des tables y sont souscrites.
 
-### Pré-requis
-
-Pour la prise en main correcte de l'application, il est nécessaire d'avoir installé les éléments suivants :
-
-- [Node js](https://nodejs.com/)
-- [MySQL](https://www.mysql.com/)
-
 ### Démarrage de l'application
 
 - Initialiser un dossier avec:
@@ -47,31 +73,83 @@ Pour la prise en main correcte de l'application, il est nécessaire d'avoir inst
 npm init
 ```
 
+- Installer  Mysql:
+
+```bash
+npm install mysql2
+```
+
 - Mettre à jour dans **package.json**:
+
 ```bash
 "main" : "./src/app.js"
 ```
 
 - Dans **./config/database.js**:
+
 Mettre vos identifiants de la base de donnée, pour une connexion de l'application et de votre base de données;
 
+- Pour lancer l'application dans console, entrez dans le repertoire **src** et tapez:
 
-## Fonctionnalités principales
+```bash
+node app.js
+```
 
-- Ajout, modification et suppression de clients;
-- Ajout, modification et suppression des produits;
-- Ajout, modification et suppression des commandes;
-- Ajout, modification et suppression des details de commandes;
+## Documentation des fonctions 
 
-## Règles de gestion
+### Customers
 
-- Un produit peut etre fournie à un ou plusieurs details;
-- Un client peut faire plusieurs commandes;
-- Une commande n'est fait que par client;
-- Un detail commande est concerné par une commande;
-- Une commande doit avoir un ou plusieurs details.
-- Un payment n'est concerné que par une commande
+- **getCustomers()** : Permets de lister touts les clients;
 
+- **addCustomer(name : string, address : string, email : string, phone : string)** : 
+Permets d'ajouter un nouveau client;
+
+- **editCustomer(id: int, name: string, address: string, email: string, phone: string)** : 
+Permets de modifier les données d'un client;
+
+- **dropCustomer(id : int)** : 
+Permets de supprimer un client;
+
+### Products
+
+- **getProducts()** : Permets de lister tous les produits;
+
+- **addProduct(name: string, description: string, price: string, stock: string, category: string, barcode: string, status: string)** : 
+Permets d'ajouter un nouveau produit;
+
+- **editProduct(id : int, name: string, description: string, price: string, stock: string, category: string, barcode: string, status: string)** : 
+Permets de modifier les données d'un produit;
+
+- **dropProduct(id : int)** : 
+Permets de supprimer un produit;
+
+### Orders
+
+- **getOrders()** : Permets de lister toutes les commandes;
+
+- **getOrder()** : Permets de lister une commande et ses details
+
+- **addOrder(commande: object, tableauDetails: array[object])** : 
+Permets d'ajouter une nouvelle commande et ses details;
+
+- **editOrder(id: int, title : string, type : string, survey_id : int)** : 
+Permets de modifier les données d'une commande et ses details;
+
+- **dropOrder(id:int)** : 
+Permets de supprimer une commande et ses details;
+
+### Payments
+
+- **getPayments()** : Permets de lister tous les paiements;
+
+- **addPayment(id: int, order_id : int, date : string, amount : string, payment_method : string)** : 
+Permets d'ajouter un nouveau paiement;
+
+- **editPayment(id: int, order_id : int, date : string, amount : string, payment_method : string)** : 
+Permets de modifier les données d'un paiement;
+
+- **dropPayment(id: int)** : 
+Permets de supprimer une paiement;
 
 
 ## Depannage 
@@ -81,5 +159,9 @@ En cas d'incapicité à utiliser l'application. Veuillez contacter l'auteur pour
 ## Licence 
 
 Ce système est à utiliser, toute commercialisation est formellement interdite.
+
+## Auteur 
+
+[Aichetou GAYE](https://github.com/Aichetou-Gaye)
 
 

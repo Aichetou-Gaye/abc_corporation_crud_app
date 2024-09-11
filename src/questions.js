@@ -264,7 +264,7 @@ async function askOrderDetail() {
 
 async function askEditOrderDetail() {
   try {
-    console.log("Complete here to modify customer data :");
+    console.log("Complete here to modify the detail order data :");
     const id = readline.questionInt("Enter the id you want to update : ");
     const check = await ord.verifyDetailId(id);
     if (check === 0) {
