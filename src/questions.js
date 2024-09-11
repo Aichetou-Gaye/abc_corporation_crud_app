@@ -6,7 +6,8 @@ const pay = require("./Payments");
 
 async function manage() {
   console.log("");
-  console.log("Choose an option");
+  console.log("Hey, welcome to the order management app");
+  console.log("");
   console.log("1. Manage customers");
   console.log("2. Manage products");
   console.log("3. Manage orders");
@@ -55,9 +56,9 @@ async function askEditCustomer() {
   try {
     console.log("Complete here to modify customer data :");
     const id = readline.questionInt("Enter the id you want to update : ");
-    const check = await cust.verifyId(id)
-    if(check === 0){
-      throw new Error("Id not exist")
+    const check = await cust.verifyId(id);
+    if (check === 0) {
+      throw new Error("Id not exist");
     }
     const name = readline.question("Enter the name : ");
     const address = readline.question("Enter the address : ");
@@ -125,6 +126,10 @@ async function askEditProduct() {
   try {
     console.log("Complete here to modify product data :");
     const id = readline.questionInt("Enter the id you want to update : ");
+    const check = await prod.verifyId(id);
+    if (check === 0) {
+      throw new Error("Id not exist");
+    }
     const name = readline.question("Enter the name : ");
     const description = readline.question("Enter the description : ");
     const price = readline.question("Enter the price : ");
@@ -145,7 +150,7 @@ async function askEditProduct() {
       throw new Error("Please, fill all columns");
     }
 
-    return { name, description, price, stock, category, barcode, status };
+    return { id, name, description, price, stock, category, barcode, status };
   } catch (e) {
     console.log(e.message);
   }
@@ -179,7 +184,13 @@ async function askOrder() {
     console.log("Enter the details for this order :");
     console.log("");
 
-    if (!date || !customer_id || !delivery_address || !track_number || !status) {
+    if (
+      !date ||
+      !customer_id ||
+      !delivery_address ||
+      !track_number ||
+      !status
+    ) {
       throw new Error("Please, fill all columns");
     }
 
@@ -191,7 +202,12 @@ async function askOrder() {
 
 async function askEditOrder() {
   try {
-    console.log("To add a new order, fields here :");
+    console.log("Complete here to modify order data :");
+    const id = readline.questionInt("Enter the id you want to update : ");
+    const check = await ord.verifyId(id);
+    if (check === 0) {
+      throw new Error("Id not exist");
+    }
     const date = readline.question("Enter the date : ");
     const customer_id = readline.questionInt("Enter the customer id : ");
     const delivery_address = readline.question("Enter the delivery address : ");
@@ -200,11 +216,17 @@ async function askEditOrder() {
     console.log("Enter the details for this order :");
     console.log("");
 
-    if (!date || !customer_id || !delivery_address || !track_number || !status) {
+    if (
+      !date ||
+      !customer_id ||
+      !delivery_address ||
+      !track_number ||
+      !status
+    ) {
       throw new Error("Please, fill all columns");
     }
 
-    return { date, customer_id, delivery_address, track_number, status };
+    return { id, date, customer_id, delivery_address, track_number, status };
   } catch (e) {
     console.log(e.message);
   }
@@ -224,23 +246,43 @@ async function detail() {
 }
 
 async function askOrderDetail() {
-  console.log("To add a new detail, fields here :");
-  const product_id = readline.questionInt("Enter the product id : ");
-  const quantity = readline.question("Enter the quantity: ");
-  const price = readline.question("Enter the price : ");
-  console.log("");
+  try {
+    console.log("To add a new detail, fields here :");
+    const product_id = readline.questionInt("Enter the product id : ");
+    const quantity = readline.question("Enter the quantity: ");
+    const price = readline.question("Enter the price : ");
+    console.log("");
+    if (!product_id || !quantity || !price) {
+      throw new Error("Please, fill all columns");
+    }
 
-  return { product_id, quantity, price };
+    return { product_id, quantity, price };
+  } catch (e) {
+    console.log(e.message);
+  }
 }
 
 async function askEditOrderDetail() {
-  console.log("To add a new detail, fields here :");
-  const product_id = readline.questionInt("Enter the product id : ");
-  const quantity = readline.question("Enter the quantity: ");
-  const price = readline.question("Enter the price : ");
-  console.log("");
+  try {
+    console.log("Complete here to modify customer data :");
+    const id = readline.questionInt("Enter the id you want to update : ");
+    const check = await ord.verifyDetailId(id);
+    if (check === 0) {
+      throw new Error("Id not exist");
+    }
+    const order_id = readline.questionInt("Enter the order id : ");
+    const product_id = readline.questionInt("Enter the product id : ");
+    const quantity = readline.question("Enter the quantity: ");
+    const price = readline.question("Enter the price : ");
+    console.log("");
+    if (!order_id || !product_id || !quantity || !price) {
+      throw new Error("Please, fill all columns");
+    }
 
-  return { product_id, quantity, price };
+    return { id, order_id, product_id, quantity, price };
+  } catch (e) {
+    console.log(e.message);
+  }
 }
 
 /**PAYMENTS */
@@ -260,23 +302,44 @@ async function payment() {
 }
 
 async function askPayment() {
-  const order_id = readline.questionInt("Enter the order id : ");
-  const date = readline.question("Enter the date of payment : ");
-  const amount = readline.question("Enter the amount : ");
-  const payment_method = readline.question("Enter the method payment: ");
-  console.log("");
+  try {
+    console.log("To add a new payment, fields here :");
+    const order_id = readline.questionInt("Enter the order id : ");
+    const date = readline.question("Enter the date of payment : ");
+    const amount = readline.question("Enter the amount : ");
+    const payment_method = readline.question("Enter the method payment: ");
+    console.log("");
+    if (!order_id || !date || !amount || !payment_method) {
+      throw new Error("Please, fill all columns");
+    }
 
-  return { order_id, date, amount, payment_method };
+    return { order_id, date, amount, payment_method };
+  } catch (e) {
+    console.log(e.message);
+  }
 }
 
 async function askEditPayment() {
-  const order_id = readline.questionInt("Enter the order id : ");
-  const date = readline.question("Enter the date of payment : ");
-  const amount = readline.question("Enter the amount : ");
-  const payment_method = readline.question("Enter the method payment: ");
-  console.log("");
+  try {
+    console.log("Complete here to modify customer data :");
+    const id = readline.questionInt("Enter the id you want to update : ");
+    const check = await pay.verifyId(id);
+    if (check === 0) {
+      throw new Error("Id not exist");
+    }
+    const order_id = readline.questionInt("Enter the order id : ");
+    const date = readline.question("Enter the date of payment : ");
+    const amount = readline.question("Enter the amount : ");
+    const payment_method = readline.question("Enter the method payment: ");
+    console.log("");
+    if (!order_id || !date || !amount || !payment_method) {
+      throw new Error("Please, fill all columns");
+    }
 
-  return { order_id, date, amount, payment_method };
+    return { id, order_id, date, amount, payment_method };
+  } catch (e) {
+    console.log(e.message);
+  }
 }
 
 module.exports = {

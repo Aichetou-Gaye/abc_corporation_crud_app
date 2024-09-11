@@ -16,7 +16,7 @@ async function main() {
             switch (choice1) {
               case 1:
                 const result = await customer.getCustomers();
-                console.table(result);
+                console.log(result);
                 break;
               case 2:
                 const newCustomer = await ask.askCustomer();
@@ -30,8 +30,13 @@ async function main() {
                 break;
               case 3:
                 const editCustomer = await ask.askEditCustomer();
-                if(editCustomer === undefined) {
-                  return ask.customer()
+                let iC = 0;
+                while (editCustomer === undefined) {
+                  iC++;
+                  if (iC === 3) {
+                    return ask.customer();
+                  }
+                  await ask.askEditCustomer();
                 }
                 await customer.editCustomer(
                   editCustomer.id,
@@ -43,9 +48,23 @@ async function main() {
                 console.log("Customer successfully updated");
                 break;
               case 4:
-                const idDrop = readline.questionInt(
+                let idDrop = readline.questionInt(
                   "Enter the id you want to delete : "
                 );
+                let check = await customer.verifyId(idDrop);
+                let count = 0;
+                while (check === 0) {
+                  count++;
+                  console.log("ID is not exist");
+                  if (count === 3) {
+                    console.log("Check the list to verify the correct ID");
+                    return ask.customer();
+                  }
+                  idDrop = readline.questionInt(
+                    "Enter the id you want to delete : "
+                  );
+                  check = await customer.verifyId(idDrop);
+                }
                 await customer.dropCustomer(idDrop);
                 console.log("Customer was deleted");
                 break;
@@ -64,7 +83,7 @@ async function main() {
             switch (choice2) {
               case 1:
                 const result = await product.getProducts();
-                console.table(result);
+                console.log(result);
                 break;
               case 2:
                 const newProduct = await ask.askProduct();
@@ -80,12 +99,17 @@ async function main() {
                 console.log("Product successfully added");
                 break;
               case 3:
-                const idEdit = readline.questionInt(
-                  "Enter the id you want to update : "
-                );
-                const editProduct = await ask.askProduct();
+                const editProduct = await ask.askEditProduct();
+                let iC = 0;
+                while (editProduct === undefined) {
+                  iC++;
+                  if (iC === 3) {
+                    return ask.product();
+                  }
+                  await ask.askEditProduct();
+                }
                 await product.editProduct(
-                  idEdit,
+                  editProduct.id,
                   editProduct.name,
                   editProduct.description,
                   editProduct.price,
@@ -97,9 +121,23 @@ async function main() {
                 console.log("Product successfully updated");
                 break;
               case 4:
-                const idDrop = readline.questionInt(
+                let idDrop = readline.questionInt(
                   "Enter the id you want to delete : "
                 );
+                let check = await product.verifyId(idDrop);
+                let count = 0;
+                while (check === 0) {
+                  count++;
+                  console.log("ID is not exist");
+                  if (count === 3) {
+                    console.log("Check the list to verify the correct ID");
+                    return ask.product();
+                  }
+                  idDrop = readline.questionInt(
+                    "Enter the id you want to delete : "
+                  );
+                  check = await product.verifyId(idDrop);
+                }
                 await product.dropProduct(idDrop);
                 console.log("Product was deleted");
                 break;
@@ -118,7 +156,7 @@ async function main() {
             switch (choice3) {
               case 1:
                 const result = await order.getOrders();
-                console.table(result);
+                console.log(result);
                 break;
               case 2:
                 const newOrder = await ask.askOrder();
@@ -164,12 +202,17 @@ async function main() {
                 }
                 break;
               case 3:
-                const idEdit = readline.questionInt(
-                  "Enter the id you want to update : "
-                );
-                const editOrder = await ask.askOrder();
+                const editOrder = await ask.askEditOrder();
+                let iC = 0;
+                while (editOrder === undefined) {
+                  iC++;
+                  if (iC === 3) {
+                    return ask.order();
+                  }
+                  await ask.askEditOrder();
+                }
                 await order.editOrder(
-                  idEdit,
+                  editOrder.id,
                   editOrder.date,
                   editOrder.customer_id,
                   editOrder.delivery_address,
@@ -179,21 +222,39 @@ async function main() {
                 console.log("Order successfully updated");
                 break;
               case 4:
-                const idDrop = readline.questionInt(
+                let idDrop = readline.questionInt(
                   "Enter the id you want to delete : "
                 );
+                let check = await order.verifyId(idDrop);
+                let count = 0;
+                while (check === 0) {
+                  count++;
+                  console.log("ID is not exist");
+                  if (count === 3) {
+                    console.log("Check the list to verify the correct ID");
+                    return ask.order();
+                  }
+                  idDrop = readline.questionInt(
+                    "Enter the id you want to delete : "
+                  );
+                  check = await order.verifyId(idDrop);
+                }
                 await order.dropOrder(idDrop);
                 console.log("Order was deleted");
                 break;
               case 5:
-                const idDetail = readline.questionInt(
-                  "Enter the id you want to update : "
-                );
-                const order_id = readline.questionInt("Enter the order id : ");
-                const editDetail = await ask.askOrderDetail();
+                const editDetail = await ask.askEditOrderDetail();
+                let iD = 0;
+                while (editDetail === undefined) {
+                  iD++;
+                  if (iD === 3) {
+                    return ask.order();
+                  }
+                  await ask.askEditOrderDetail();
+                }
                 await order.editOrderDetail(
-                  idDetail,
-                  order_id,
+                  editDetail.id,
+                  editDetail.order_id,
                   editDetail.product_id,
                   editDetail.quantity,
                   editDetail.price
@@ -205,7 +266,7 @@ async function main() {
                   "Enter the id of the order, if you don't remember check the list first : "
                 );
                 const resultDetail = await order.getOrder(showId);
-                console.table(resultDetail);
+                console.log(resultDetail);
                 break;
               case 7:
                 return main();
@@ -222,7 +283,7 @@ async function main() {
             switch (choice4) {
               case 1:
                 const result = await payment.getPayments();
-                console.table(result);
+                console.log(result);
                 break;
               case 2:
                 const newPayment = await ask.askPayment();
@@ -235,12 +296,17 @@ async function main() {
                 console.log("Payment successfully added");
                 break;
               case 3:
-                const idEdit = readline.questionInt(
-                  "Enter the id you want to update : "
-                );
-                const editPayment = await ask.askPayment();
+                const editPayment = await ask.askEditPayment();
+                let iC = 0;
+                while (editPayment === undefined) {
+                  iC++;
+                  if (iC === 3) {
+                    return ask.payment();
+                  }
+                  await ask.askEditOrderDetail();
+                }
                 await payment.editPayment(
-                  idEdit,
+                  editPayment.id,
                   editPayment.order_id,
                   editPayment.date,
                   editPayment.amount,
@@ -249,9 +315,23 @@ async function main() {
                 console.log("Payment successfully updated");
                 break;
               case 4:
-                const idDrop = readline.questionInt(
+                let idDrop = readline.questionInt(
                   "Enter the id you want to delete : "
                 );
+                let check = await payment.verifyId(idDrop);
+                let count = 0;
+                while (check === 0) {
+                  count++;
+                  console.log("ID is not exist");
+                  if (count === 3) {
+                    console.log("Check the list to verify the correct ID");
+                    return ask.payment();
+                  }
+                  idDrop = readline.questionInt(
+                    "Enter the id you want to delete : "
+                  );
+                  check = await payment.verifyId(idDrop);
+                }
                 await payment.dropPayment(idDrop);
                 console.log("Payment was deleted");
                 break;
@@ -265,6 +345,7 @@ async function main() {
           }
           break;
         case 5:
+          console.log("Bye");
           process.exit(0);
         default:
           console.log("Please choose a valid option!");
