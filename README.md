@@ -1,14 +1,21 @@
-# Système de Gestion de Base de Données pour ABC Corporation
+# Application CRUD pour ABC Corporation
 
-## Version 1.0
+## Version 2.0
 
-## Date publication 2024-08-01
+## Date publication 2024-09-11
 
 ## Auteur : Aichetou Ahmed GAYE
 
 ## Description
 
-ABC Corporation est une entreprise spécialisée dans l’importation et l’exportation de produits, qui depuis sa création, elle gère ses activités à travers des fichiers Excel. Désormais, l'entreprise dispose d'une base de données dans le but de faciliter la gestion.
+ABC Corporation, spécialisée dans l'importation et l'exportation de produits, a fait un grand pas en délaissant la gestion par Excel au profit d'une base de données relationnelle. Lors de la première phase du projet, j'ai modélisé avec succès leur fichier Excel (version 1) en une base de données relationnelle.
+
+Dans cette nouvelle phase, ABC Corporation souhaite aller plus loin en intégrant la gestion des paiements des commandes. En tant que développeur full stack, ma mission consiste à :
+
+- Mettre à jour les modèles précédemment développés pour inclure la gestion des paiements.
+- Adapter le schéma de la base de données afin de gérer les paiements et les relations avec les commandes.
+- Concevoir une application Node.js en mode console permettant d'effectuer des opérations CRUD (Create, Read, Update, Delete) sur l'ensemble des tables de la base de données, y compris la gestion des paiements.
+- Intégrer une gestion rigoureuse des exceptions pour assurer la fiabilité des opérations (gestion des erreurs de saisie, connexions à la base de données, etc.)
 
 ## Installation
 
@@ -17,20 +24,37 @@ ABC Corporation est une entreprise spécialisée dans l’importation et l’exp
 
 ## Utilisation
 
-<!-- ### Connexion
+### Connexion
 
-- Connecter vous à votre base de données en administrateur avec la commande "mysql -u root -p" et entrez votre mot de passe;
-- Ou se connecter en hôte avec la commande "mysql -h localhost -u nom_utilisateur -p" ensuite saisissez votre mot de passe.
+- Connexion en administrateur : "mysql -u root -p";
+- Ou en hôte: "mysql -h localhost -u nom_utilisateur -p".
 
 ### Insertion de données
 
-Dans le fichier "script.sql", toutes les commandes pour la création de la base de données, son utilisation et la création des tables y sont souscrites, pour ce faire :
+Dans le fichier "script.sql", toutes les commandes pour la création de la base de données, son utilisation et la création des tables y sont souscrites.
 
-- Copiez la ligne contenant "create database......;", pour créer la base de données;
-- Ensuite copiez "use .....;" pour pouvoir communiquer avec la base de donnée;
-- Pour la création des tables, copiez chaque partie de "create table ...(.........);" et collez un a un pour respecter la structure de la base de donnée;
-- Ensuite inserer vos donnees dans la table concernée en respectant la structure et le nommage des attributs;
-- Effectuer des requetes pour extraire ou afficher des informations souhaitées de votre base de donnée;
+### Pré-requis
+
+Pour la prise en main correcte de l'application, il est nécessaire d'avoir installé les éléments suivants :
+
+- [Node js](https://nodejs.com/)
+- [MySQL](https://www.mysql.com/)
+
+### Démarrage de l'application
+
+- Initialiser un dossier avec:
+```bash
+npm init
+```
+
+- Mettre à jour dans **package.json**:
+```bash
+"main" : "./src/app.js"
+```
+
+- Dans **./config/database.js**:
+Mettre vos identifiants de la base de donnée, pour une connexion de l'application et de votre base de données;
+
 
 ## Fonctionnalités principales
 
@@ -45,16 +69,14 @@ Dans le fichier "script.sql", toutes les commandes pour la création de la base 
 - Un client peut faire plusieurs commandes;
 - Une commande n'est fait que par client;
 - Un detail commande est concerné par une commande;
-- Une commande peut avoir plusieurs details.
+- Une commande doit avoir un ou plusieurs details.
+- Un payment n'est concerné que par une commande
 
-## Amelioration
 
-1. Validation des données: Indiquez les règles de validation des données (format des champs, valeurs autorisées, etc.). Par exemple, pour un prix, on peut spécifier qu'il doit être un nombre positif;
-2. Proposez des idées de rapports qui pourraient être générés (ventes par produit, clients les plus actifs, etc.). -->
 
 ## Depannage 
 
-En cas d'incapicité à exploiter la base de donnée. Veuillez contacter l'auteur pour obtenir de l'aide.
+En cas d'incapicité à utiliser l'application. Veuillez contacter l'auteur pour obtenir de l'aide.
 
 ## Licence 
 
