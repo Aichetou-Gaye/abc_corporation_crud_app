@@ -12,18 +12,18 @@ async function getProducts() {
   }
 }
 
-// async function verifyId(id) {
-//   const connection = await pool.getConnection();
-//   try {
-//     const myId = await connection.execute(
-//       "SELECT id FROM products where id = ?",
-//       [id]
-//     );
-//     return myId
-//   } catch (error) {
-//     console.log(error.message)
-//   }
-// }
+async function verifyId(id) {
+  const connection = await pool.getConnection();
+  try {
+    const [myId] = await connection.execute(
+      "SELECT * FROM products where id = ?",
+      [id]
+    );
+    return myId.length
+  } catch (error) {
+    throw error
+  }
+}
 
 async function addProduct(
   name,
@@ -92,4 +92,5 @@ module.exports = {
   addProduct,
   editProduct,
   dropProduct,
+  verifyId,
 };

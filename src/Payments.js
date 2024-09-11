@@ -12,19 +12,6 @@ async function getPayments() {
   }
 }
 
-// async function verifyId(id) {
-//   const connection = await pool.getConnection();
-//   try {
-//     const myId = await connection.execute(
-//       "SELECT id FROM payments where id = ?",
-//       [id]
-//     );
-//     return myId
-//   } catch (error) {
-//     console.log(error.message)
-//   }
-// }
-
 async function addPayment(
   order_id,
   date,
@@ -81,9 +68,23 @@ async function dropPayment(id) {
   }
 }
 
+async function verifyId(id) {
+  const connection = await pool.getConnection();
+  try {
+    const [myId] = await connection.execute(
+      "SELECT * FROM payments where id = ?",
+      [id]
+    );
+    return myId.length
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   getPayments,
   addPayment,
   editPayment,
   dropPayment,
+  verifyId,
 };

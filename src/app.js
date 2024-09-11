@@ -29,12 +29,12 @@ async function main() {
                 console.log("Customer successfully added");
                 break;
               case 3:
-                const idEdit = readline.questionInt(
-                  "Enter the id you want to update : "
-                );
-                const editCustomer = await ask.askCustomer();
+                const editCustomer = await ask.askEditCustomer();
+                if(editCustomer === undefined) {
+                  return ask.customer()
+                }
                 await customer.editCustomer(
-                  idEdit,
+                  editCustomer.id,
                   editCustomer.name,
                   editCustomer.address,
                   editCustomer.email,
@@ -50,7 +50,7 @@ async function main() {
                 console.log("Customer was deleted");
                 break;
               case 5:
-                process.exit();
+                return main();
               default:
                 console.log("Invalid choice.");
                 break;
@@ -104,7 +104,7 @@ async function main() {
                 console.log("Product was deleted");
                 break;
               case 5:
-                process.exit(0);
+                return main();
               default:
                 console.log("Invalid choice.");
                 break;
@@ -122,14 +122,46 @@ async function main() {
                 break;
               case 2:
                 const newOrder = await ask.askOrder();
-                await order.addOrder(
-                  newOrder.date,
-                  newOrder.customer_id,
-                  newOrder.delivery_address,
-                  newOrder.track_number,
-                  newOrder.status
-                );
-                console.log("Order successfully added");
+                const getTab = {
+                  date: newOrder.date,
+                  customer_id: newOrder.customer_id,
+                  delivery_address: newOrder.delivery_address,
+                  track_number: newOrder.track_number,
+                  status: newOrder.status,
+                };
+                let manageDetail = await ask.detail();
+                let tabDetail = [];
+
+                while (manageDetail !== 0) {
+                  try {
+                    if (
+                      (manageDetail === 23 || manageDetail === 22) &&
+                      tabDetail.length === 0
+                    ) {
+                      throw new Error("You have to put details of this order");
+                    }
+                    switch (manageDetail) {
+                      case 21:
+                        const newDetail = await ask.askOrderDetail();
+                        let addDetail = {
+                          product_id: newDetail.product_id,
+                          quantity: newDetail.quantity,
+                          price: newDetail.price,
+                        };
+                        tabDetail.push(addDetail);
+                        break;
+                      case 22:
+                        await order.addOrder(getTab, tabDetail);
+                        console.log("Order was successfully added");
+                        return ask.order();
+                      case 23:
+                        return ask.order();
+                    }
+                  } catch (e) {
+                    console.log(e.message);
+                  }
+                  manageDetail = await ask.detail();
+                }
                 break;
               case 3:
                 const idEdit = readline.questionInt(
@@ -154,7 +186,29 @@ async function main() {
                 console.log("Order was deleted");
                 break;
               case 5:
-                process.exit(0);
+                const idDetail = readline.questionInt(
+                  "Enter the id you want to update : "
+                );
+                const order_id = readline.questionInt("Enter the order id : ");
+                const editDetail = await ask.askOrderDetail();
+                await order.editOrderDetail(
+                  idDetail,
+                  order_id,
+                  editDetail.product_id,
+                  editDetail.quantity,
+                  editDetail.price
+                );
+                console.log("Order detail successfully updated");
+                break;
+              case 6:
+                const showId = readline.questionInt(
+                  "Enter the id of the order, if you don't remember check the list first : "
+                );
+                const resultDetail = await order.getOrder(showId);
+                console.table(resultDetail);
+                break;
+              case 7:
+                return main();
               default:
                 console.log("Invalid choice.");
                 break;
@@ -202,7 +256,7 @@ async function main() {
                 console.log("Payment was deleted");
                 break;
               case 5:
-                process.exit(0);
+                return main();
               default:
                 console.log("Invalid choice.");
                 break;

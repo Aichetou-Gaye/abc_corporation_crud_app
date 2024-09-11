@@ -15,15 +15,13 @@ async function getCustomers() {
 async function verifyId(id) {
   const connection = await pool.getConnection();
   try {
-    const myId = await connection.execute(
-      "SELECT id FROM customers where id = ?",
+    const [myId] = await connection.execute(
+      "SELECT * FROM customers where id = ?",
       [id]
     );
-    console.log(myId)
-    if(myId) return true
-    return null
+    return myId.length
   } catch (error) {
-    console.log(error.message)
+    throw error
   }
 }
 
