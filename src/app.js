@@ -46,8 +46,9 @@ async function main() {
                       editCustomer = await ask.askEditCustomer();
                     }
                     if (editCustomer === undefined) {
-                      console.log("Please, check the list to verify the correct ID");
-                      break;
+                      throw new Error(
+                        "Please, check the list to verify the correct ID"
+                      );
                     } else {
                       await customer.editCustomer(
                         editCustomer.id,
@@ -71,7 +72,7 @@ async function main() {
                     let count = 0;
                     while (check === 0 && count < 2) {
                       count++;
-                      console.log("The ID isn't exist in the database!");
+                      console.log("This ID isn't exist in the database!");
                       console.log("");
                       idDrop = readline.questionInt(
                         "Enter the id you want to delete : "
@@ -79,8 +80,9 @@ async function main() {
                       check = await customer.verifyId(idDrop);
                     }
                     if (check === 0) {
-                      console.log("Please, check the list to verify the correct ID");
-                      break;
+                      throw new Error(
+                        "Please, check the list to verify the correct ID"
+                      );
                     } else {
                       await customer.dropCustomer(idDrop);
                       console.log("Customer was deleted");
@@ -140,8 +142,9 @@ async function main() {
                       editProduct = await ask.askEditProduct();
                     }
                     if (editProduct === undefined) {
-                      console.log("Please, check the list to verify the correct ID");
-                      break;
+                      throw new Error(
+                        "Please, check the list to verify the correct ID"
+                      );
                     } else {
                       await product.editProduct(
                         editProduct.id,
@@ -168,7 +171,7 @@ async function main() {
                     let count = 0;
                     while (check === 0 && count < 2) {
                       count++;
-                      console.log("The ID isn't exist in the database!");
+                      console.log("This ID isn't exist in the database!");
                       console.log("");
                       idDrop = readline.questionInt(
                         "Enter the id you want to delete : "
@@ -176,8 +179,9 @@ async function main() {
                       check = await product.verifyId(idDrop);
                     }
                     if (check === 0) {
-                      console.log("Please, check the list to verify the correct ID");
-                      break;
+                      throw new Error(
+                        "Please, check the list to verify the correct ID"
+                      );
                     } else {
                       await product.dropProduct(idDrop);
                       console.log("Product was deleted");
@@ -213,7 +217,7 @@ async function main() {
                   break;
                 case 2:
                   try {
-                    const newOrder = await ask.askOrder();
+                    let newOrder = await ask.askOrder();
                     const getTab = {
                       date: newOrder.date,
                       customer_id: newOrder.customer_id,
@@ -221,48 +225,47 @@ async function main() {
                       track_number: newOrder.track_number,
                       status: newOrder.status,
                     };
+                    const check = await customer.verifyId(newOrder.customer_id);
+                    if (check === 0) {
+                      throw new Error("This customer id is not exists in database");
+                    }
                     let manageDetail = await ask.detail();
                     let tabDetail = [];
 
-                    while (manageDetail !== 0) {
+                    while (manageDetail === 21) {
                       try {
-                        if (
-                          (manageDetail === 23 || manageDetail === 22) &&
-                          tabDetail.length === 0
-                        ) {
+                        const newDetail = await ask.askOrderDetail();
+                        let addDetail = {
+                          product_id: newDetail.product_id,
+                          quantity: newDetail.quantity,
+                          price: newDetail.price,
+                        };
+                        const check = await product.verifyId(
+                          newDetail.product_id
+                        );
+                        if (check === 0) {
                           throw new Error(
-                            "You have to put details of this order"
+                            "Product id is not exists in database"
                           );
+                        } else {
+                          tabDetail.push(addDetail);
                         }
-                        switch (manageDetail) {
-                          case 21:
-                            try {
-                              const newDetail = await ask.askOrderDetail();
-                              let addDetail = {
-                                product_id: newDetail.product_id,
-                                quantity: newDetail.quantity,
-                                price: newDetail.price,
-                              };
-                              tabDetail.push(addDetail);
-                            } catch (e) {
-                              console.error(e.message);
-                            }
-                            break;
-                          case 22:
-                            try {
-                              await order.addOrder(getTab, tabDetail);
-                              console.log("Order was successfully added");
-                            } catch (e) {
-                              console.error(e.sqlMessage);
-                            }
-                            await ask.order();
-                          case 23:
-                            await ask.order();
-                        }
+                        manageDetail = await ask.detail();
                       } catch (e) {
                         console.log(e.message);
                       }
-                      manageDetail = await ask.detail();
+                    }
+                    if (manageDetail === 22) {
+                      try {
+                        if (tabDetail.length === 0) {
+                          throw new Error("Order must have details");
+                        } else {
+                          await order.addOrder(getTab, tabDetail);
+                          console.log("Order was successfully added");
+                        }
+                      } catch (e) {
+                        console.error(e.message);
+                      }
                     }
                   } catch (e) {
                     console.error(e.message);
@@ -277,8 +280,9 @@ async function main() {
                       editOrder = await ask.askEditOrder();
                     }
                     if (editOrder === undefined) {
-                      console.log("Please, check the list to verify the correct ID");
-                      break;
+                      throw new Error(
+                        "Please, check the list to verify the correct ID"
+                      );
                     } else {
                       await order.editOrder(
                         editOrder.id,
@@ -303,7 +307,7 @@ async function main() {
                     let count = 0;
                     while (check === 0 && count < 2) {
                       count++;
-                      console.log("The ID isn't exist in the database!");
+                      console.log("This ID isn't exist in the database!");
                       console.log("");
                       idDrop = readline.questionInt(
                         "Enter the id you want to delete : "
@@ -311,8 +315,9 @@ async function main() {
                       check = await order.verifyId(idDrop);
                     }
                     if (check === 0) {
-                      console.log("Please, check the list to verify the correct ID");
-                      break;
+                      throw new Error(
+                        "Please, check the list to verify the correct ID"
+                      );
                     } else {
                       await order.dropOrder(idDrop);
                       console.log("Order was deleted");
@@ -330,8 +335,9 @@ async function main() {
                       editDetail = await ask.askEditOrderDetail();
                     }
                     if (editDetail === undefined) {
-                      console.log("Please, check the list to verify the correct ID");
-                      break;
+                      throw new Error(
+                        "Please, check the list to verify the correct ID"
+                      );
                     } else {
                       await order.editOrderDetail(
                         editDetail.id,
@@ -351,8 +357,13 @@ async function main() {
                     const showId = readline.questionInt(
                       "Enter the id of the order, if you don't remember Please, check the list first : "
                     );
-                    const resultDetail = await order.getOrder(showId);
-                    console.log(resultDetail);
+                    let check = await order.verifyId(showId);
+                    if (check === 0) {
+                      throw new Error("This ID isn't exist in the database!");
+                    } else {
+                      const resultDetail = await order.getOrder(showId);
+                      console.log(resultDetail);
+                    }
                   } catch (e) {
                     console.error(e.message);
                   }
@@ -405,8 +416,9 @@ async function main() {
                       editPayment = await ask.askEditOrderDetail();
                     }
                     if (editPayment === undefined) {
-                      console.log("Please, check the list to verify the correct ID");
-                      break;
+                      throw new Error(
+                        "Please, check the list to verify the correct ID"
+                      );
                     } else {
                       await payment.editPayment(
                         editPayment.id,
@@ -430,7 +442,7 @@ async function main() {
                     let count = 0;
                     while (check === 0 && count < 2) {
                       count++;
-                      console.log("The ID isn't exist in the database!");
+                      console.log("This ID isn't exist in the database!");
                       console.log("");
                       idDrop = readline.questionInt(
                         "Enter the id you want to delete : "
@@ -438,8 +450,9 @@ async function main() {
                       check = await payment.verifyId(idDrop);
                     }
                     if (check === 0) {
-                      console.log("Please, check the list to verify the correct ID");
-                      break;
+                      throw new Error(
+                        "Please, check the list to verify the correct ID"
+                      );
                     } else {
                       await payment.dropPayment(idDrop);
                       console.log("Payment was deleted");

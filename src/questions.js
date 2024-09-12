@@ -205,7 +205,7 @@ async function askEditOrder() {
     const delivery_address = readline.question("Enter the delivery address : ");
     const track_number = readline.question("Enter the track number : ");
     const status = readline.question("Enter the status : ");
-    console.log("Enter the details for this order :");
+    console.log("Also edit details for this order :");
     console.log("");
 
     if (
@@ -256,22 +256,14 @@ async function askOrderDetail() {
 
 async function askEditOrderDetail() {
   try {
-    console.log("Complete here to modify the detail order data :");
-    const id = readline.questionInt("Enter the id you want to update : ");
-    const check = await ord.verifyDetailId(id);
-    if (check === 0) {
-      throw new Error("The ID isn't exist in the database!");
-    }
-    const order_id = readline.questionInt("Enter the order id : ");
     const product_id = readline.questionInt("Enter the product id : ");
     const quantity = readline.question("Enter the quantity: ");
     const price = readline.question("Enter the price : ");
     console.log("");
-    if (!order_id || !product_id || !quantity || !price) {
+    if (!product_id || !quantity || !price) {
       throw new Error("Please, fill all columns");
     }
-
-    return { id, order_id, product_id, quantity, price };
+    return { product_id, quantity, price };
   } catch (e) {
     console.log(e.message);
   }
