@@ -64,7 +64,7 @@ npm install
 
 ### Insertion de données
 
-Dans le fichier "script.sql", toutes les commandes pour la création de la base de données, son utilisation et la création des tables y sont souscrites.
+Dans le fichier "/assets/script.sql", toutes les commandes pour la création de la base de données, son utilisation et la création des tables y sont souscrites.
 
 ### Démarrage de l'application
 
@@ -85,14 +85,25 @@ npm install mysql2
 "main" : "./src/app.js"
 ```
 
-- Dans **./config/database.js**:
+- Dans le fichier **/config/database.js**:
 
-Mettre vos identifiants de la base de donnée, pour une connexion de l'application et de votre base de données;
+Remplacer vos identifiants dans la partie suivante, pour connecter l'application à votre base de données :
 
-- Pour lancer l'application dans console, entrez dans le repertoire **src** et tapez:
+```bash
+user: "user_name",
+password: "password",
+database: "database_name"
+```
+
+- Pour lancer l'application dans console, entrez dans le repertoire **src** et tapez :
 
 ```bash
 node app.js
+```
+Ou lancer directement depuis le répertoire parent :
+
+```bash
+node ./src/app.js
 ```
 
 ## Documentation des fonctions 
@@ -158,7 +169,7 @@ En cas d'incapicité à utiliser l'application. Veuillez contacter l'auteur pour
 
 ## Licence 
 
-Ce système est à utiliser, toute commercialisation est formellement interdite.
+Cet application est à utiliser, toute commercialisation est formellement interdite.
 
 ## Auteur 
 

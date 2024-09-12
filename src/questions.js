@@ -58,7 +58,7 @@ async function askEditCustomer() {
     const id = readline.questionInt("Enter the id you want to update : ");
     const check = await cust.verifyId(id);
     if (check === 0) {
-      throw new Error("Id not exist");
+      throw new Error("The ID isn't exist in the database!");
     }
     const name = readline.question("Enter the name : ");
     const address = readline.question("Enter the address : ");
@@ -128,7 +128,7 @@ async function askEditProduct() {
     const id = readline.questionInt("Enter the id you want to update : ");
     const check = await prod.verifyId(id);
     if (check === 0) {
-      throw new Error("Id not exist");
+      throw new Error("The ID isn't exist in the database!");
     }
     const name = readline.question("Enter the name : ");
     const description = readline.question("Enter the description : ");
@@ -138,15 +138,7 @@ async function askEditProduct() {
     const barcode = readline.question("Enter the barcode : ");
     const status = readline.question("Enter the status : ");
     console.log("");
-    if (
-      !name ||
-      !description ||
-      !price ||
-      !stock ||
-      !category ||
-      !barcode ||
-      !status
-    ) {
+    if (!name || !description || !price || !stock || !category || !barcode || !status) {
       throw new Error("Please, fill all columns");
     }
 
@@ -206,7 +198,7 @@ async function askEditOrder() {
     const id = readline.questionInt("Enter the id you want to update : ");
     const check = await ord.verifyId(id);
     if (check === 0) {
-      throw new Error("Id not exist");
+      throw new Error("The ID isn't exist in the database!");
     }
     const date = readline.question("Enter the date : ");
     const customer_id = readline.questionInt("Enter the customer id : ");
@@ -268,7 +260,7 @@ async function askEditOrderDetail() {
     const id = readline.questionInt("Enter the id you want to update : ");
     const check = await ord.verifyDetailId(id);
     if (check === 0) {
-      throw new Error("Id not exist");
+      throw new Error("The ID isn't exist in the database!");
     }
     const order_id = readline.questionInt("Enter the order id : ");
     const product_id = readline.questionInt("Enter the product id : ");
@@ -325,7 +317,7 @@ async function askEditPayment() {
     const id = readline.questionInt("Enter the id you want to update : ");
     const check = await pay.verifyId(id);
     if (check === 0) {
-      throw new Error("Id not exist");
+      throw new Error("The ID isn't exist in the database!");
     }
     const order_id = readline.questionInt("Enter the order id : ");
     const date = readline.question("Enter the date of payment : ");
