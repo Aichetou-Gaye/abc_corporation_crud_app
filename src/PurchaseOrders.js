@@ -133,41 +133,12 @@ async function dropOrder(id) {
   }
 }
 
-async function verifyDetailId(id) {
-  const connection = await pool.getConnection();
-  try {
-    const [myId] = await connection.execute(
-      "SELECT * FROM order_details where id = ?",
-      [id]
-    );
-    return myId.length;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function editOrderDetail(id, order_id, product_id, quantity, price) {
-  const connection = await pool.getConnection();
-  try {
-    const [results] = await connection.execute(
-      "update order_details set order_id = ?, product_id = ?, quantity = ?, price = ? where id = ?",
-      [order_id, product_id, quantity, price, id]
-    );
-    return results.affectedRows;
-  } catch (error) {
-    throw error;
-  } finally {
-    connection.release();
-  }
-}
 
 module.exports = {
   getOrders,
   addOrder,
   editOrder,
   dropOrder,
-  editOrderDetail,
   getOrder,
   verifyId,
-  verifyDetailId,
 };

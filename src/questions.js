@@ -156,9 +156,8 @@ async function order() {
   console.log("2. Add a new order");
   console.log("3. Update order");
   console.log("4. Delete a order");
-  console.log("5. Manage details");
-  console.log("6. Show an order");
-  console.log("7. Exit");
+  console.log("5. Show an order");
+  console.log("6. Exit");
   console.log("");
   const choice = readline.questionInt("Your choice : ");
   console.log("");
@@ -263,6 +262,7 @@ async function askEditOrderDetail() {
     if (!product_id || !quantity || !price) {
       throw new Error("Please, fill all columns");
     }
+
     return { product_id, quantity, price };
   } catch (e) {
     console.log(e.message);

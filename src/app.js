@@ -218,53 +218,59 @@ async function main() {
                 case 2:
                   try {
                     let newOrder = await ask.askOrder();
-                    const getTab = {
-                      date: newOrder.date,
-                      customer_id: newOrder.customer_id,
-                      delivery_address: newOrder.delivery_address,
-                      track_number: newOrder.track_number,
-                      status: newOrder.status,
-                    };
-                    const check = await customer.verifyId(newOrder.customer_id);
-                    if (check === 0) {
-                      throw new Error("This customer id is not exists in database");
-                    }
-                    let manageDetail = await ask.detail();
-                    let tabDetail = [];
-
-                    while (manageDetail === 21) {
-                      try {
-                        const newDetail = await ask.askOrderDetail();
-                        let addDetail = {
-                          product_id: newDetail.product_id,
-                          quantity: newDetail.quantity,
-                          price: newDetail.price,
-                        };
-                        const check = await product.verifyId(
-                          newDetail.product_id
+                    if (newOrder !== undefined) {
+                      const getTab = {
+                        date: newOrder.date,
+                        customer_id: newOrder.customer_id,
+                        delivery_address: newOrder.delivery_address,
+                        track_number: newOrder.track_number,
+                        status: newOrder.status,
+                      };
+                      const check = await customer.verifyId(
+                        newOrder.customer_id
+                      );
+                      if (check === 0) {
+                        throw new Error(
+                          "This customer id is not exists in the database"
                         );
-                        if (check === 0) {
-                          throw new Error(
-                            "Product id is not exists in database"
-                          );
-                        } else {
-                          tabDetail.push(addDetail);
-                        }
-                        manageDetail = await ask.detail();
-                      } catch (e) {
-                        console.log(e.message);
                       }
-                    }
-                    if (manageDetail === 22) {
-                      try {
-                        if (tabDetail.length === 0) {
-                          throw new Error("Order must have details");
-                        } else {
-                          await order.addOrder(getTab, tabDetail);
-                          console.log("Order was successfully added");
+                      let manageDetail = await ask.detail();
+                      let tabDetail = [];
+
+                      while (manageDetail === 21) {
+                        try {
+                          const newDetail = await ask.askOrderDetail();
+                          let addDetail = {
+                            product_id: newDetail.product_id,
+                            quantity: newDetail.quantity,
+                            price: newDetail.price,
+                          };
+                          const check = await product.verifyId(
+                            newDetail.product_id
+                          );
+                          if (check === 0) {
+                            throw new Error(
+                              "Product id is not exists in database"
+                            );
+                          } else {
+                            tabDetail.push(addDetail);
+                          }
+                          manageDetail = await ask.detail();
+                        } catch (e) {
+                          console.log(e.message);
                         }
-                      } catch (e) {
-                        console.error(e.message);
+                      }
+                      if (manageDetail === 22) {
+                        try {
+                          if (tabDetail.length === 0) {
+                            throw new Error("Order must have details");
+                          } else {
+                            await order.addOrder(getTab, tabDetail);
+                            console.log("Order was successfully added");
+                          }
+                        } catch (e) {
+                          console.error(e.message);
+                        }
                       }
                     }
                   } catch (e) {
@@ -274,25 +280,60 @@ async function main() {
                 case 3:
                   try {
                     let editOrder = await ask.askEditOrder();
-                    let iC = 0;
-                    while (editOrder === undefined && iC < 2) {
-                      iC++;
-                      editOrder = await ask.askEditOrder();
-                    }
-                    if (editOrder === undefined) {
-                      throw new Error(
-                        "Please, check the list to verify the correct ID"
+                    if (editOrder !== undefined) {
+                      const getTab = {
+                        id: editOrder.id,
+                        date: editOrder.date,
+                        customer_id: editOrder.customer_id,
+                        delivery_address: editOrder.delivery_address,
+                        track_number: editOrder.track_number,
+                        status: editOrder.status,
+                      };
+                      const check = await customer.verifyId(
+                        editOrder.customer_id
                       );
-                    } else {
-                      await order.editOrder(
-                        editOrder.id,
-                        editOrder.date,
-                        editOrder.customer_id,
-                        editOrder.delivery_address,
-                        editOrder.track_number,
-                        editOrder.status
-                      );
-                      console.log("Order successfully updated");
+                      if (check === 0) {
+                        throw new Error(
+                          "This customer id is not exists in the database"
+                        );
+                      }
+                      let manageDetail = await ask.detail();
+                      let tabDetail = [];
+                      while (manageDetail === 21) {
+                        try {
+                          const newDetail = await ask.askEditOrderDetail();
+                          let addDetail = {
+                            product_id: newDetail.product_id,
+                            quantity: newDetail.quantity,
+                            price: newDetail.price,
+                          };
+                          const check = await product.verifyId(
+                            newDetail.product_id
+                          );
+                          if (check === 0) {
+                            throw new Error(
+                              "Product id is not exists in database"
+                            );
+                          } else {
+                            tabDetail.push(addDetail);
+                          }
+                          manageDetail = await ask.detail();
+                        } catch (e) {
+                          console.log(e.message);
+                        }
+                      }
+                      if (manageDetail === 22) {
+                        try {
+                          if (tabDetail.length === 0) {
+                            throw new Error("Order must have details");
+                          } else {
+                            await order.editOrder(getTab, tabDetail);
+                            console.log("Order was successfully updated");
+                          }
+                        } catch (e) {
+                          console.error(e.message);
+                        }
+                      }
                     }
                   } catch (e) {
                     console.error(e.message);
@@ -328,32 +369,6 @@ async function main() {
                   break;
                 case 5:
                   try {
-                    let editDetail = await ask.askEditOrderDetail();
-                    let iD = 0;
-                    while (editDetail === undefined && iD < 2) {
-                      iD++;
-                      editDetail = await ask.askEditOrderDetail();
-                    }
-                    if (editDetail === undefined) {
-                      throw new Error(
-                        "Please, check the list to verify the correct ID"
-                      );
-                    } else {
-                      await order.editOrderDetail(
-                        editDetail.id,
-                        editDetail.order_id,
-                        editDetail.product_id,
-                        editDetail.quantity,
-                        editDetail.price
-                      );
-                      console.log("Order detail successfully updated");
-                    }
-                  } catch (e) {
-                    console.error(e.message);
-                  }
-                  break;
-                case 6:
-                  try {
                     const showId = readline.questionInt(
                       "Enter the id of the order, if you don't remember Please, check the list first : "
                     );
@@ -368,7 +383,7 @@ async function main() {
                     console.error(e.message);
                   }
                   break;
-                case 7:
+                case 6:
                   await main();
                 default:
                   console.log("Invalid choice.");
