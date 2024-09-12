@@ -140,10 +140,10 @@ Permets de supprimer un produit;
 
 - **getOrder()** : Permets de lister une commande et ses details
 
-- **addOrder(commande: object, tableauDetails: array[object])** : 
+- **addOrder(order: object, orderDetails: array[object])** : 
 Permets d'ajouter une nouvelle commande et ses details;
 
-- **editOrder(id: int, title : string, type : string, survey_id : int)** : 
+- **editOrder(order: object, orderDetails: array[object])** : 
 Permets de modifier les données d'une commande et ses details;
 
 - **dropOrder(id:int)** : 
