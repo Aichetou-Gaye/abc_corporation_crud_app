@@ -46,6 +46,23 @@ async function verifyId(id) {
   }
 }
 
+async function checkTrack(track_number) {
+  const connection = await pool.getConnection();
+  try {
+  const [track] = await connection.execute("SELECT track_number FROM purchase_orders")
+    for(let i in track) {
+      let get = track[i]
+      if(get.track_number === track_number){
+        return true
+      }
+    }
+  } catch (error) {
+    throw error
+  } finally {
+    connection.release();
+  }
+}
+
 async function addOrder(order, orderDetails) {
   const connection = await pool.getConnection();
   try {
@@ -74,28 +91,6 @@ async function addOrder(order, orderDetails) {
     connection.release();
   }
 }
-
-// async function editOrder(
-//   id,
-//   date,
-//   customer_id,
-//   delivery_address,
-//   track_number,
-//   status
-// ) {
-//   const connection = await pool.getConnection();
-//   try {
-//     const [results] = await connection.execute(
-//       "update purchase_orders set date = ?, customer_id = ?, delivery_address = ?, track_number = ?, status = ? where id = ?",
-//       [date, customer_id, delivery_address, track_number, status, id]
-//     );
-//     return results.affectedRows;
-//   } catch (error) {
-//     throw error;
-//   } finally {
-//     connection.release();
-//   }
-// }
 
 async function editOrder(order, orderDetails) {
   const connection = await pool.getConnection();
@@ -141,4 +136,5 @@ module.exports = {
   dropOrder,
   getOrder,
   verifyId,
+  checkTrack,
 };

@@ -171,10 +171,15 @@ async function askOrder() {
     const customer_id = readline.questionInt("Enter the customer id : ");
     const delivery_address = readline.question("Enter the delivery address : ");
     const track_number = readline.question("Enter the track number : ");
+    if(await ord.checkTrack(track_number)){
+      console.log("");
+      throw new Error("Track_number is already exists")
+    }
     const status = readline.question("Enter the status : ");
     console.log("Enter the details for this order :");
     console.log("");
 
+    
     if (
       !date ||
       !customer_id ||
@@ -203,6 +208,10 @@ async function askEditOrder() {
     const customer_id = readline.questionInt("Enter the customer id : ");
     const delivery_address = readline.question("Enter the delivery address : ");
     const track_number = readline.question("Enter the track number : ");
+    if(await ord.checkTrack(track_number)){
+      console.log("");
+      throw new Error("Track_number is already exists")
+    }
     const status = readline.question("Enter the status : ");
     console.log("Also edit details for this order :");
     console.log("");
