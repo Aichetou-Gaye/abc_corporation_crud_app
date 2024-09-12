@@ -226,33 +226,18 @@ async function main() {
                         track_number: newOrder.track_number,
                         status: newOrder.status,
                       };
-                      const check = await customer.verifyId(
-                        newOrder.customer_id
-                      );
-                      if (check === 0) {
-                        throw new Error(
-                          "This customer id is not exists in the database"
-                        );
-                      }
                       let manageDetail = await ask.detail();
                       let tabDetail = [];
 
                       while (manageDetail === 21) {
                         try {
                           const newDetail = await ask.askOrderDetail();
-                          let addDetail = {
-                            product_id: newDetail.product_id,
-                            quantity: newDetail.quantity,
-                            price: newDetail.price,
-                          };
-                          const check = await product.verifyId(
-                            newDetail.product_id
-                          );
-                          if (check === 0) {
-                            throw new Error(
-                              "Product id is not exists in database"
-                            );
-                          } else {
+                          if (newDetail !== undefined) {
+                            let addDetail = {
+                              product_id: newDetail.product_id,
+                              quantity: newDetail.quantity,
+                              price: newDetail.price,
+                            };
                             tabDetail.push(addDetail);
                           }
                           manageDetail = await ask.detail();
@@ -289,32 +274,17 @@ async function main() {
                         track_number: editOrder.track_number,
                         status: editOrder.status,
                       };
-                      const check = await customer.verifyId(
-                        editOrder.customer_id
-                      );
-                      if (check === 0) {
-                        throw new Error(
-                          "This customer id is not exists in the database"
-                        );
-                      }
                       let manageDetail = await ask.detail();
                       let tabDetail = [];
                       while (manageDetail === 21) {
                         try {
-                          const newDetail = await ask.askEditOrderDetail();
-                          let addDetail = {
-                            product_id: newDetail.product_id,
-                            quantity: newDetail.quantity,
-                            price: newDetail.price,
-                          };
-                          const check = await product.verifyId(
-                            newDetail.product_id
-                          );
-                          if (check === 0) {
-                            throw new Error(
-                              "Product id is not exists in database"
-                            );
-                          } else {
+                          const editDetail = await ask.askOrderDetail();
+                          if (editDetail !== undefined) {
+                            let addDetail = {
+                              product_id: editDetail.product_id,
+                              quantity: editDetail.quantity,
+                              price: editDetail.price,
+                            };
                             tabDetail.push(addDetail);
                           }
                           manageDetail = await ask.detail();
@@ -428,7 +398,7 @@ async function main() {
                     let iC = 0;
                     while (editPayment === undefined && iC < 2) {
                       iC++;
-                      editPayment = await ask.askEditOrderDetail();
+                      editPayment = await ask.askEditPayment();
                     }
                     if (editPayment === undefined) {
                       throw new Error(

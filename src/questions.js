@@ -168,7 +168,13 @@ async function askOrder() {
   try {
     console.log("To add a new order, fields here :");
     const date = readline.question("Enter the date : ");
+
     const customer_id = readline.questionInt("Enter the customer id : ");
+    if ((await cust.verifyId(customer_id)) === 0) {
+      throw new Error(
+        "This customer id is not exists in the database"
+      );
+    }
     const delivery_address = readline.question("Enter the delivery address : ");
     const track_number = readline.question("Enter the track number : ");
     if(await ord.checkTrack(track_number)){
@@ -205,13 +211,22 @@ async function askEditOrder() {
       throw new Error("The ID isn't exist in the database!");
     }
     const date = readline.question("Enter the date : ");
+
     const customer_id = readline.questionInt("Enter the customer id : ");
+    if ((await cust.verifyId(customer_id)) === 0) {
+      throw new Error(
+        "This customer id is not exists in the database"
+      );
+    }
+
     const delivery_address = readline.question("Enter the delivery address : ");
+
     const track_number = readline.question("Enter the track number : ");
     if(await ord.checkTrack(track_number)){
       console.log("");
       throw new Error("Track_number is already exists")
     }
+
     const status = readline.question("Enter the status : ");
     console.log("Also edit details for this order :");
     console.log("");
@@ -236,7 +251,7 @@ async function askEditOrder() {
 async function detail() {
   console.log("");
   console.log("Choose an option");
-  console.log("21. Add new detail");
+  console.log("21. Add detail");
   console.log("22. Save");
   console.log("23. Exit");
   console.log("");
@@ -247,24 +262,12 @@ async function detail() {
 
 async function askOrderDetail() {
   try {
-    console.log("To add a new detail, fields here :");
     const product_id = readline.questionInt("Enter the product id : ");
-    const quantity = readline.question("Enter the quantity: ");
-    const price = readline.question("Enter the price : ");
-    console.log("");
-    if (!product_id || !quantity || !price) {
-      throw new Error("Please, fill all columns");
+    if ((await prod.verifyId(product_id)) === 0) {
+      throw new Error(
+        "This product id is not exists in database"
+      );
     }
-
-    return { product_id, quantity, price };
-  } catch (e) {
-    console.log(e.message);
-  }
-}
-
-async function askEditOrderDetail() {
-  try {
-    const product_id = readline.questionInt("Enter the product id : ");
     const quantity = readline.question("Enter the quantity: ");
     const price = readline.question("Enter the price : ");
     console.log("");
@@ -298,6 +301,11 @@ async function askPayment() {
   try {
     console.log("To add a new payment, fields here :");
     const order_id = readline.questionInt("Enter the order id : ");
+    if((await ord.verifyId(order_id) === 0)){
+      throw new Error(
+        "This order id is not exists in database"
+      );
+    }
     const date = readline.question("Enter the date of payment : ");
     const amount = readline.question("Enter the amount : ");
     const payment_method = readline.question("Enter the method payment: ");
@@ -321,6 +329,11 @@ async function askEditPayment() {
       throw new Error("The ID isn't exist in the database!");
     }
     const order_id = readline.questionInt("Enter the order id : ");
+    if((await ord.verifyId(order_id) === 0)){
+      throw new Error(
+        "This order id is not exists in database"
+      );
+    }
     const date = readline.question("Enter the date of payment : ");
     const amount = readline.question("Enter the amount : ");
     const payment_method = readline.question("Enter the method payment: ");
@@ -350,6 +363,5 @@ module.exports = {
   askEditCustomer,
   askEditProduct,
   askEditOrder,
-  askEditOrderDetail,
   askEditPayment,
 };
