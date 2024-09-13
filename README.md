@@ -31,13 +31,13 @@ Suivez ces étapes pour configurer le projet sur votre machine locale :
 1. **Clonez le repository :**
 
 ```bash
-git clone https://github.com/Aichetou-Gaye/abc_corporation_nodejs.git
+git clone https://github.com/Aichetou-Gaye/abc_corporation_crud_app.git
 ```
 
 2. **Accédez au dossier du projet :**
 
 ```bash
-cd abc_corporation_nodejs
+cd abc_corporation_crud_app
 ```
 
 3. **Installez les dépendances :**
@@ -68,24 +68,7 @@ Dans le fichier "/assets/script.sql", toutes les commandes pour la création de 
 
 ### Démarrage de l'application
 
-- Initialiser un dossier avec:
-```bash
-npm init
-```
-
-- Installer  Mysql:
-
-```bash
-npm install mysql2
-```
-
-- Mettre à jour dans **package.json**:
-
-```bash
-"main" : "./src/app.js"
-```
-
-- Dans le fichier **/config/database.js**:
+- Dans le fichier **/config/db.js**:
 
 Remplacer vos identifiants dans la partie suivante, pour connecter l'application à votre base de données :
 
@@ -138,7 +121,7 @@ Permets de supprimer un produit;
 
 - **getOrders()** : Permets de lister toutes les commandes;
 
-- **getOrder()** : Permets de lister une commande et ses details
+- **getOrder(id:int)** : Permets de lister une commande et ses details
 
 - **addOrder(order: object, orderDetails: array[object])** : 
 Permets d'ajouter une nouvelle commande et ses details;
