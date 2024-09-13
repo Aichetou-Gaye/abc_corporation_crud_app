@@ -1,8 +1,8 @@
-create database abc_business_management;
+create database if not exists abc_business_management;
 
 use abc_business_management;
 
-create table customers(
+create table if not exists customers(
    id int auto_increment,
    name varchar(50) not null,
    address varchar(100) not null,
@@ -18,7 +18,7 @@ modify column name varchar(255) not null,
 modify column address text not null,
 modify column email varchar(255) not null;
 
-create table products(
+create table if not exists products(
    id int auto_increment,
    name varchar(50) not null,
    description text not null,
@@ -36,7 +36,7 @@ add column category varchar(100) not null,
 add column barcode varchar(50) not null,
 add column status varchar(50) not null;
 
-create table purchase_orders(
+create table if not exists purchase_orders(
    id int auto_increment,
    date date not null,
    customer_id int not null,
@@ -55,7 +55,7 @@ add column status varchar(50) not null;
 alter table purchase_orders 
 add constraint un_track unique(track_number);
 
-create table payments(
+create table if not exists payments(
    id int auto_increment,
    order_id int not null,
    date date not null,
@@ -72,7 +72,7 @@ create table order_details(
    quantity int not null,
    price decimal(15,2) not null,
    constraint pk primary key(id),
-   constraint fk_order_purchase foreign key(order_id) references purchase_orders(id),
+   constraint fk_order_purchase foreign key(order_id) references purchase_orders(id) on delete cascade,
    constraint fk_product foreign key(product_id) references products(id)
 );
 
