@@ -1,4 +1,4 @@
-# Application CRUD pour ABC Corporation
+# ABC Order Management
 
 ## Version 2.0
 
@@ -8,14 +8,11 @@
 
 ## Description
 
-ABC Corporation, spécialisée dans l'importation et l'exportation de produits, a fait un grand pas en délaissant la gestion par Excel au profit d'une base de données relationnelle. Lors de la première phase du projet, j'ai modélisé avec succès leur fichier Excel (version 1) en une base de données relationnelle.
+ABC Corporation, spécialisée dans l'importation et l'exportation de produits, a fait a fait à nouveau appel à moi après que j'ai modélisée avec succès leur fichier Excel en une base de données relationnelle.
 
-Dans cette nouvelle phase, ABC Corporation souhaite aller plus loin en intégrant la gestion des paiements des commandes. En tant que développeur full stack, ma mission consiste à :
+Dans cette nouvelle phase, je dois intégrée la gestion des paiements des commandes. En tant que développeur full stack, ma mission consiste à concevoir une application Node.js **abc_order_management** en mode console permettant d'effectuer des opérations CRUD sur l'ensemble des tables de la base de données, y compris la gestion des paiements;
 
-- Mettre à jour les modèles précédemment développés pour inclure la gestion des paiements.
-- Adapter le schéma de la base de données afin de gérer les paiements et les relations avec les commandes.
-- Concevoir une application Node.js en mode console permettant d'effectuer des opérations CRUD (Create, Read, Update, Delete) sur l'ensemble des tables de la base de données, y compris la gestion des paiements.
-- Intégrer une gestion rigoureuse des exceptions pour assurer la fiabilité des opérations (gestion des erreurs de saisie, connexions à la base de données, etc.)
+
 
 ### Pré-requis
 
@@ -31,13 +28,13 @@ Suivez ces étapes pour configurer le projet sur votre machine locale :
 1. **Clonez le repository :**
 
 ```bash
-git clone https://github.com/Aichetou-Gaye/abc_corporation_crud_app.git
+git clone https://github.com/Aichetou-Gaye/abc_order_management.git
 ```
 
 2. **Accédez au dossier du projet :**
 
 ```bash
-cd abc_corporation_crud_app
+cd abc_order_management
 ```
 
 3. **Installez les dépendances :**
@@ -45,15 +42,6 @@ cd abc_corporation_crud_app
 ```bash
 npm install
 ```
-
-## Règles de gestion
-
-- Un produit peut etre fournie à un ou plusieurs details;
-- Un client peut faire plusieurs commandes;
-- Une commande n'est fait que par client;
-- Un detail commande est concerné par une commande;
-- Une commande doit avoir un ou plusieurs details.
-- Un payment n'est concerné que par une commande
 
 ## Utilisation
 
@@ -78,12 +66,7 @@ password: "password",
 database: "database_name"
 ```
 
-- Pour lancer l'application dans console, entrez dans le repertoire **src** et tapez :
-
-```bash
-node app.js
-```
-Ou lancer directement depuis le répertoire parent :
+- Pour lancer l'application dans console, tapez :
 
 ```bash
 node ./src/app.js
@@ -136,10 +119,10 @@ Permets de supprimer une commande et ses details;
 
 - **getPayments()** : Permets de lister tous les paiements;
 
-- **addPayment(id: int, order_id : int, date : string, amount : string, payment_method : string)** : 
+- **addPayment( )** : 
 Permets d'ajouter un nouveau paiement;
 
-- **editPayment(id: int, order_id : int, date : string, amount : string, payment_method : string)** : 
+- **editPayment( )** : 
 Permets de modifier les données d'un paiement;
 
 - **dropPayment(id: int)** : 

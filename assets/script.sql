@@ -1,6 +1,6 @@
-create database if not exists abc_business_management;
+create database if not exists abc_order_management;
 
-use abc_business_management;
+use abc_order_management;
 
 create table if not exists customers(
    id int auto_increment,

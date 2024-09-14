@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aichetou-Gaye/abc_corporation_nodejs.git"
+    "url": "git+https://github.com/Aichetou-Gaye/abc_order_management.git"
   },
   "author": "Aichetou Gaye",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Aichetou-Gaye/abc_corporation_nodejs/issues"
+    "url": "https://github.com/Aichetou-Gaye/abc_order_management/issues"
   },
-  "homepage": "https://github.com/Aichetou-Gaye/abc_corporation_nodejs#readme",
+  "homepage": "https://github.com/Aichetou-Gaye/abc_order_management#readme",
   "dependencies": {
     "mysql2": "^3.11.0",
     "readline-sync": "^1.4.10"
